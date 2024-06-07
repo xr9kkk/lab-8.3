@@ -3,13 +3,20 @@
 
 using TInfo = RECORD*;
 
-struct DNODE {
+struct DNODE
+{
     TInfo info;
     DNODE* next;
     DNODE* prev;
 
-    DNODE(TInfo info) : info(info), next(nullptr), prev(nullptr) {};
+    DNODE(TInfo info, DNODE* next = nullptr, DNODE* prev = nullptr) :
+        info(info), next(next), prev(prev) {}
+
+    ~DNODE() {
+        delete info; // Освобождаем память, выделенную для RECORD
+        next = nullptr;
+        prev = nullptr;
+    }
 };
 
 using ptrDNODE = DNODE*;
-

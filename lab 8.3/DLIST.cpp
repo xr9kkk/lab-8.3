@@ -1,112 +1,94 @@
 #include "DLIST.h"
-#include <iostream>
-#include <cstring>
 
-DLIST::DLIST(std::ifstream& file)
-{
-    TInfo customer = new RECORD(file);
-    first_node(customer);
-    while (!file.eof())
-    {
+
+DLIST::DLIST(std::ifstream& file) {
+    RECORD* customer;
+    if (file >> std::ws && !file.eof()) {
+        customer = new RECORD(file);
+        first_node(customer);
+    }
+    while (file >> std::ws && !file.eof()) {
         customer = new RECORD(file);
         insert_after(tail, customer);
     }
-    file.close();
 }
 
-DLIST::DLIST(std::ifstream& file, std::function<bool(char*, char*)> compare) {
-    TInfo person = new RECORD(file);
-    first_node(person);
-
-    auto find_place = [this, compare](TInfo elem) -> ptrDNODE {
-        ptrDNODE p = head;
-        while (p && compare((*(p->info)).get_customer(), (*elem).get_customer()))
-            p = p->next;
-        return p;
-        };
-
-    ptrDNODE place{};
-    while (!file.eof()) {
+DLIST::DLIST(std::ifstream& file, std::function<bool(const char*, const char*)> compare) {
+    RECORD* person;
+    while (file >> std::ws && !file.eof()) {
         person = new RECORD(file);
-        place = find_place(person);
-        if (place)
-            insert_before(place, person);
-        else
-            insert_after(tail, person);
+        if (empty()) {
+            first_node(person);
+        }
+        else {
+            ptrDNODE place = head;
+            while (place && compare(place->info->get_customer(), person->get_customer())) {
+                place = place->next;
+            }
+            if (place) {
+                insert_before(place, person);
+            }
+            else {
+                insert_after(tail, person);
+            }
+        }
     }
-    file.close();
 }
 
 DLIST::~DLIST() {
     clear();
 }
 
-bool DLIST::empty() const {
-    return head == nullptr;
-}
-
-void DLIST::print()
-{
+void DLIST::print() const {
     ptrDNODE p = head;
-    while (p)
-    {
+    while (p) {
         p->info->print();
         p = p->next;
     }
     std::cout << '\n';
 }
 
-
-
 void DLIST::clear() {
     while (head) {
         ptrDNODE temp = head;
         head = head->next;
-        delete temp;
+        delete temp; 
     }
     tail = nullptr;
     size = 0;
 }
 
-void DLIST::first_node(TInfo person) {
+void DLIST::first_node(RECORD* person) {
     head = new DNODE(person);
     tail = head;
     size = 1;
 }
 
-void DLIST::insert_before(ptrDNODE node, TInfo person) {
-    ptrDNODE newNode = new DNODE(person);
-    newNode->next = node;
-    newNode->prev = node->prev;
-    if (node->prev) {
-        node->prev->next = newNode;
+void DLIST::insert_after(ptrDNODE ptr, RECORD* elem) {
+    ptrDNODE p = new DNODE(elem, ptr->next, ptr);
+    if (ptr == tail) {
+        tail = p;
     }
     else {
-        head = newNode;
+        ptr->next->prev = p;
     }
-    node->prev = newNode;
-    ++size;
+    ptr->next = p;
+    size++;
 }
 
-void DLIST::insert_after(ptrDNODE node, TInfo person) {
-    ptrDNODE newNode = new DNODE(person);
-    newNode->prev = node;
-    newNode->next = node->next;
-    if (node->next) {
-        node->next->prev = newNode;
+void DLIST::insert_before(ptrDNODE ptr, RECORD* elem) {
+    ptrDNODE p = new DNODE(elem, ptr, ptr->prev);
+    if (ptr == head) {
+        head = p;
     }
     else {
-        tail = newNode;
+        ptr->prev->next = p;
     }
-    node->next = newNode;
-    ++size;
+    ptr->prev = p;
+    size++;
 }
 
-
-
-
-
-bool compare_customers(char* a, char* b) {
-    return std::strcmp(a, b) < 0;
+ptrDNODE DLIST::get_head()
+{
+    return head;
 }
-

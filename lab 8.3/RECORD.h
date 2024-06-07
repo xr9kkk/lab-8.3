@@ -1,51 +1,27 @@
 #pragma once
-#include <fstream>
-#include <string>
-#include <cstring>
+
 #include <iostream>
-const int n = 35;
+#include <fstream>
+#include <cstring> 
 
 struct RECORD {
-    char date[n], status[n], customer[n];
+private:
+    char date[11]; 
+    char name[256]; 
+    char status[10]; 
     int amount;
 
-    RECORD(std::ifstream& file) 
-    {
-        file.ignore(); 
-        file.getline(date, n); 
-        file.getline(customer, n); 
-        file.getline(status, n); 
-        file >> amount; 
-        file.ignore(); 
-        if (!file.eof()) 
-        {
-            char delim_line[255];
-            file.getline(delim_line, 255); 
-        }
+public:
+    RECORD(std::ifstream& file);
+    void print() const;
+    const char* get_customer() const {
+        return name;
     }
-
-    int amount_getter()
+    int get_amount()
     {
         return amount;
     }
-
-    char* get_customer() 
-    {
-        return customer;
-    }
-
-    char status_getter() {
-        return status[n];
-    }
-
-    ~RECORD() {
-        delete[] customer;
-    }
-    void print()
-    {
-        std::cout << date << '\n';
-        std::cout << status << '\n';
-        std::cout << customer<< '\n';
-        std::cout << amount << '\n';
+    char* get_status() {
+        return status;
     }
 };
