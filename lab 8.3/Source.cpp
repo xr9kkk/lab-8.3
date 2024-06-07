@@ -21,57 +21,7 @@ int main() {
 
 
 
-//void task(DLIST& list) {
-//    int max_income{};
-//    int max_expense{};
-//    const char* max_income_customer = nullptr;
-//    const char* max_expense_customer = nullptr;
-//
-//    ptrDNODE p = list.get_head();
-//    while (p) {
-//        const char* current_name = p->info->get_customer();
-//        int total_income = 0;
-//        int total_expense = 0;
-//
-//        ptrDNODE q = list.get_head();
-//        while (q) {
-//            if (std::strcmp(q->info->get_customer(), current_name) == 0) {
-//                if (std::strcmp(q->info->get_status(), "приход") == 0) {
-//                    total_income += q->info->get_amount();
-//                }
-//                else if (std::strcmp(q->info->get_status(), "расход") == 0) {
-//                    total_expense += q->info->get_amount();
-//                }
-//            }
-//            q = q->next;
-//        }
-//
-//        if (total_income > max_income) {
-//            max_income = total_income;
-//            max_income_customer = current_name;
-//        }
-//
-//        if (total_expense > max_expense) {
-//            max_expense = total_expense;
-//            max_expense_customer = current_name;
-//        }
-//
-//        // Переход к следующему уникальному пользователю
-//        while (p && std::strcmp(p->info->get_customer(), current_name) == 0) {
-//            p = p->next;
-//        }
-//    }
-//
-//    std::cout << "Пользователь с максимальным приходом:\n";
-//    std::cout << "Имя/Организация: " << max_income_customer << "\n";
-//    std::cout << "Общий приход: " << max_income << "\n";
-//   
-//
-//    std::cout << "\nПользователь с максимальным расходом:\n";
-//    std::cout << "Имя/Организация: " << max_expense_customer << "\n";
-//    std::cout << "Общий расход: " << max_expense << "\n";
-//   
-//}
+
 void task(DLIST& list) {
     int max_income{};
     int max_expense{};
