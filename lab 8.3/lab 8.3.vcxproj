@@ -136,10 +136,11 @@
   <ItemGroup>
     <ClInclude Include="DLIST.h" />
     <ClInclude Include="DNODE.h" />
-    <ClInclude Include="STRUCT.h" />
+    <ClInclude Include="RECORD.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DLIST.cpp" />
+    <ClCompile Include="RECORD.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

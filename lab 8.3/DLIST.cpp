@@ -2,6 +2,18 @@
 #include <iostream>
 #include <cstring>
 
+DLIST::DLIST(std::ifstream& file)
+{
+    TInfo customer = new RECORD(file);
+    first_node(customer);
+    while (!file.eof())
+    {
+        customer = new RECORD(file);
+        insert_after(tail, customer);
+    }
+    file.close();
+}
+
 DLIST::DLIST(std::ifstream& file, std::function<bool(char*, char*)> compare) {
     TInfo person = new RECORD(file);
     first_node(person);
@@ -32,6 +44,19 @@ DLIST::~DLIST() {
 bool DLIST::empty() const {
     return head == nullptr;
 }
+
+void DLIST::print()
+{
+    ptrDNODE p = head;
+    while (p)
+    {
+        p->info->print();
+        p = p->next;
+    }
+    std::cout << '\n';
+}
+
+
 
 void DLIST::clear() {
     while (head) {
@@ -77,54 +102,11 @@ void DLIST::insert_after(ptrDNODE node, TInfo person) {
     ++size;
 }
 
-void DLIST::print_list() const {
-    ptrDNODE current = head;
-    while (current) {
-        std::cout << "Клиент: " << current->info->get_customer() << "\n";
-        std::cout << "Приход: " << current->info->prihod_sum << "\n";
-        std::cout << "Расход: " << current->info->rashod_sum << "\n\n";
-        current = current->next;
-    }
-}
 
-void DLIST::print_max_accounts() const {
-    if (!empty()) {
-        ptrDNODE max_prihod_node = find_max_prihod(head);
-        ptrDNODE max_rashod_node = find_max_rashod(head);
 
-        if (max_prihod_node) {
-            std::cout << "Максимальный приход: " << max_prihod_node->info->get_customer() << " на сумму " << max_prihod_node->info->prihod_sum << "\n";
-        }
-        if (max_rashod_node) {
-            std::cout << "Максимальный расход: " << max_rashod_node->info->get_customer() << " на сумму " << max_rashod_node->info->rashod_sum << "\n";
-        }
-    }
-}
+
 
 bool compare_customers(char* a, char* b) {
     return std::strcmp(a, b) < 0;
 }
 
-ptrDNODE find_max_prihod(ptrDNODE head) {
-    ptrDNODE max_node = nullptr;
-    ptrDNODE current = head;
-    while (current) {
-        if (!max_node || current->info->prihod_sum > max_node->info->prihod_sum) {
-            max_node = current;
-        }
-        current = current->next;
-    }
-    return max_node;
-}
-
-ptrDNODE find_max_rashod(ptrDNODE head) {
-    ptrDNODE max_node = nullptr;
-    ptrDNODE current = head;
-    while (current) {
-        if (!max_node || current->info->rashod_sum > max_node->info->rashod_sum) {
-            max_node = current;
-        }
-        current = current->next;
-    }
-    return max_node;
-}

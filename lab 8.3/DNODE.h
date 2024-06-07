@@ -1,5 +1,5 @@
 #pragma once
-#include "struct.h"
+#include "record.h"
 
 using TInfo = RECORD*;
 

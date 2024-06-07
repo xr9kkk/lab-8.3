@@ -2,6 +2,7 @@
 #include <fstream>
 #include "dlist.h"
 
+
 int main() {
     setlocale(LC_ALL, "ru");
 
@@ -9,11 +10,7 @@ int main() {
     if (!file.is_open()) {
         std::cout << "Не удалось открыть файл" << std::endl;
     }
-
-    DLIST list(file, compare_customers);
-
-    list.print_list();
-    list.print_max_accounts();
-
+    DLIST list(file);
+    list.print();
     return 0;
 }

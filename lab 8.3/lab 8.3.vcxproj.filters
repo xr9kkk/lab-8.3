@@ -23,7 +23,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="STRUCT.h">
+    <ClInclude Include="RECORD.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="DNODE.h">
@@ -38,6 +38,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Source.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="RECORD.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
